@@ -1,10 +1,4 @@
-#include <iostream>
-
-#include <string>
-#include <algorithm>
-#include <map>
-
-//#include <bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
