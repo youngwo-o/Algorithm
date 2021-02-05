@@ -18,18 +18,12 @@ int strToInt(string s) {
 	return res;
 }
 
-bool cmp(const vector<string> a, const vector<string> b) {
-	string aLow, bLow;
-
-	for (int i = 0; i < a[0].length(); ++i) {
-		aLow += tolower(a[0][i]);
-	}
-	for (int i = 0; i < b[0].length(); ++i) {
-		bLow += tolower(b[0][i]);
-	}
+bool cmp(vector<string> a, vector<string> b) {
+	transform(a[0].begin(), a[0].end(), a[0].begin(), ::tolower);
+	transform(b[0].begin(), b[0].end(), b[0].begin(), ::tolower);
 
 	//header가 같으면, number 순
-	if (aLow == bLow) {
+	if (a[0] == b[0]) {
 		int aNum = strToInt(a[1]);
 		int bNum = strToInt(b[1]);
 
@@ -40,7 +34,7 @@ bool cmp(const vector<string> a, const vector<string> b) {
 			return aNum < bNum;
 	}
 	else //header 다르면, header 사전순
-		return aLow < bLow;
+		return a[0] < b[0];
 }
 
 vector<string> solution(vector<string> files) {
@@ -84,6 +78,7 @@ vector<string> solution(vector<string> files) {
 
 	for (auto s : f) {
 		string res = s[0] + s[1] + s[2];
+		cout << res << endl;
 		answer.push_back(res);
 	}
 
