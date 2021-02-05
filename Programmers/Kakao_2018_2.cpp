@@ -13,7 +13,7 @@ vector<string> solution(int n, vector<int> arr1, vector<int> arr2) {
 		string ans = "";
 		//int p = pow(2, n - 1);
 		for (int j = 0; j < n; ++j) {
-			//직접 나눠서 2진수 구하기
+			//직접 나눠서 2진수 구함
 			/*if (res >= p) {
 				res -= p;
 				answer[i] += '#';
@@ -24,13 +24,14 @@ vector<string> solution(int n, vector<int> arr1, vector<int> arr2) {
 			p /= 2;*/
 
 			if (res % 2 == 0)
-				ans += '#';
+				ans = ' ' + ans; //거꾸로니까 앞에 붙임
 			else
-				ans += ' ';
+				ans = '#' + ans;
 
 			//비트 연산자 활용!!
 			res = res >> 1;
 		}
+		answer.push_back(ans);
 	}
 
 	return answer;
