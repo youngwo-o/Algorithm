@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <map>
 
+//#include <bits/stdc++.h>
+
 using namespace std;
 
 map<string, int> m1;
@@ -12,12 +14,9 @@ map<string, int> m2;
 //다중집합 만들기
 void makeSet(string str, map<string, int>& m) {
 	for (int i = 0, len = str.size() - 1; i < len; ++i) {
-		//두글자 모두 알파벳인 경우만
-		if ('a' <= str[i] && str[i] <= 'z') {
-			if ('a' <= str[i + 1] && str[i + 1] <= 'z') {
+		if(isalpha(str[i]) && isalpha(str[i + 1])) {
 				string s = str.substr(i, 2);
 				m[s]++;
-			}
 		}
 	}
 }
@@ -48,13 +47,7 @@ int solution(string str1, string str2) {
 		b += it.second;
 	}
 
-	double j;
-	if (b != 0)
-		j = (double)a / b;
-	else
-		return 65536;
-
-	return j * 65536;
+	return b ? ((double)a / b) * 65536 : 65536;
 }
 
 int main() {
