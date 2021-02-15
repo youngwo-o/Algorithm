@@ -34,12 +34,11 @@ vector<int> solution(string s) {
 	vector<bool> isSelected(100001, false);
 	vector<int> ans;
 	//모든 튜플 탐색
-	for (int i = 0; i < tuples.size(); ++i) {
-		for (int j = 0; j < tuples[i].size(); ++j) {
-			//이전에 선택되지 않은 요소 결과 배열에 넣기
-			if (!isSelected[tuples[i][j]]) {
-				isSelected[tuples[i][j]] = true;
-				ans.push_back(tuples[i][j]);
+	for (auto tup : tuples) {
+		for (auto num : tup) {
+			if (!isSelected[num]) {
+				isSelected[num] = true;
+				ans.push_back(num);
 			}
 		}
 	}
