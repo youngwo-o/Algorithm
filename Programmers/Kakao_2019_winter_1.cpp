@@ -2,46 +2,33 @@
 
 using namespace std;
 
-bool cmp(const vector<int> a, const vector<int> b) {
-	return a.size() < b.size();
-}
+int solution(vector<vector<int>> board, vector<int> moves) {
+	int answer = 0;
 
-vector<int> solution(string s) {
-	int idx = 2;
+	int row = board.size();
+	int col = board[0].size();
+	vector<stack<int>> s(col + 1);
 
-	vector<vector<int>> tuples;
-	//string을 튜플 단위로 자르기
-	for (int i = 1; i < s.length() - 1; ++i) {
-		if (s[i] == '}') {
-			string sub = s.substr(idx, i - idx);
-			idx = i + 3;
-
-			//','를 기준 string tokenizer
-			stringstream ss(sub);
-			string token;
-			vector<int> res;
-			while (getline(ss, token, ',')) {
-				res.push_back(stoi(token));
-			}
-
-			tuples.push_back(res);
+	for (int j = 0; j < col; ++j) {
+		for (int i = row - 1; i >= 0; --i) {
+			if (board[i][j] != 0)
+				s[j].push(board[i][j]);
 		}
 	}
 
-	//튜플의 요소 수가 적은 순으로 정렬
-	sort(tuples.begin(), tuples.end(), cmp);
+	stack<int> tmp;
+	for (auto m : moves) {
+		if (!s[m].empty()) {
+			int n = s[m].top();
+			s[m].pop();
 
-	vector<bool> isSelected(100001, false);
-	vector<int> ans;
-	//모든 튜플 탐색
-	for (auto tup : tuples) {
-		for (auto num : tup) {
-			if (!isSelected[num]) {
-				isSelected[num] = true;
-				ans.push_back(num);
+			if (!tmp.empty() && tmp.top() == n) {
+				tmp.pop();
+				answer += 2;
 			}
+			else tmp.push(n);
 		}
 	}
 
-	return ans;
+	return answer;
 }
