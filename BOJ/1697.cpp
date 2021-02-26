@@ -2,20 +2,20 @@
 
 using namespace std;
 
-int MAX = 100001;
+int MAX = 100000;
 int N, K;
-vector<int> dist(MAX, INT_MAX);
+vector<int> dist(MAX + 1, -1);
 
 int solution() {
-	priority_queue<pair<int, int>> pq;
+	queue<pair<int, int>> q;
 
 	dist[N] = 0;
-	pq.push({ 0, N });
+	q.push({ N, 0 });
 
-	while (!pq.empty()) {
-		int curI = pq.top().second;
-		int curD = -pq.top().first;
-		pq.pop();
+	while (!q.empty()) {
+		int curI = q.front().first;
+		int curD = q.front().second;
+		q.pop();
 
 		if (curI == K) return curD;
 
@@ -25,10 +25,10 @@ int solution() {
 			else if (i == 1) next += 1;
 			else if (i == 2) next *= 2;
 
-			if (next < 0 || next >= MAX || dist[next] <= curD + 1) continue;
+			if (next < 0 || next > MAX || dist[next] != -1) continue;
 
 			dist[next] = curD + 1;
-			pq.push({ -(curD + 1), next });
+			q.push({ next, curD + 1 });
 		}
 	}
 }
