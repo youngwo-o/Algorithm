@@ -1,64 +1,53 @@
-#include <string>
+#include <bits/stdc++.h>
 
 using namespace std;
 
 string solution(string new_id) {
-	string tmp_id = "";
+	//1
+	transform(new_id.begin(), new_id.end(), new_id.begin(), ::tolower);
 
-	for (int i = 0, len = new_id.size(); i < len;  ++i) {
-		if (new_id[i] >= 'A' && new_id[i] <= 'Z')
-			tmp_id += (new_id[i] - 'A' + 'a');
-		else
-			tmp_id += new_id[i];
-	}
-
-	for (int i = 0; i < tmp_id.size(); ++i) {
-		if (tmp_id[i] >= 'a' && tmp_id[i] <= 'z');
-		else if (tmp_id[i] >= '1' && tmp_id[i] <= '9');
-		else if (tmp_id[i] == '-' || tmp_id[i] == '_' || tmp_id[i] == '.');
+	//2
+	for (int i = 0; i < new_id.size(); ++i) {
+		char c = new_id[i];
+		if (islower(c));
+		else if (isdigit(c));
+		else if (c == '-' || c == '_' || c == '.');
 		else {
-			tmp_id = tmp_id.erase(i, 1);
+			new_id.erase(i, 1);
 			i--;
 		}
 	}
 
-	for (int i = 0; i < tmp_id.size(); ++i) {
-		if (tmp_id[i] == '.') {
+	//3
+	for (int i = 0; i < new_id.size(); ++i) {
+		if (new_id[i] == '.') {
 			int cnt = 0;
-			for (int j = i + 1; j < tmp_id.size(); ++j) {
-				if (tmp_id[j] == '.')
-					cnt++;
-				else
-					break;
+			for (int j = i + 1; j < new_id.size(); ++j) {
+				if (new_id[j] == '.') cnt++;
+				else break;
 			}
-			tmp_id = tmp_id.erase(i + 1, cnt);
+			new_id.erase(i, cnt);
 		}
 	}
 
-	if (tmp_id[0] == '.')
-		tmp_id = tmp_id.substr(1, tmp_id.size() - 1);
-	if (tmp_id[tmp_id.size() - 1] == '.')
-		tmp_id = tmp_id.substr(0, tmp_id.size() - 1);
+	//4
+	if (new_id.front() == '.') new_id.erase(new_id.begin());
+	if (new_id.back() == '.') new_id.pop_back();
 
-	if (tmp_id.size() == 0)
-		tmp_id += 'a';
-	if (tmp_id.size() >= 16)
-		tmp_id = tmp_id.substr(0, 15);
-	if (tmp_id[tmp_id.size() - 1] == '.')
-		tmp_id = tmp_id.substr(0, tmp_id.size() - 1);
+	//5
+	if (new_id.empty()) new_id += 'a';
 
-	if (tmp_id.size() <= 2) {
-		char c = tmp_id[tmp_id.size() - 1];
-		while (tmp_id.size() != 3) {
-			tmp_id += c;
-		}
+	//6
+	if (new_id.size() >= 16) {
+		new_id = new_id.substr(0, 15);
+		if (new_id.back() == '.') new_id.pop_back();
 	}
 
-	return tmp_id;
-}
+	//7
+	if (new_id.size() <= 2) {
+		while (new_id.size() < 3)
+			new_id += new_id.back();
+	}
 
-int main() {
-	solution("...!@BaT#*..y.abcdefghijklm");
-
-	return 0;
+	return new_id;
 }
