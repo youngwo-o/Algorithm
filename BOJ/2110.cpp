@@ -1,47 +1,45 @@
-#include <iostream>
-#include <algorithm>
+#include <bits/stdc++.h>
+#define MAX 200001
 
 using namespace std;
 
-int n, c;
-int h[200001];
+int N, C;
+vector<int> home;
 
-int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+int solution() {
+	int ans = 0;
+	sort(home.begin(), home.end());
 
-	cin >> n >> c;
-	for (int i = 0; i < n; ++i) {
-		cin >> h[i];
-	}
-
-	sort(h, h + n);
-	
-	int dist = 0, ans = 0;
-	int low = 1, high = h[n - 1] - h[0];
+	int low = 1, high = home.back() - home.front();
 	while (low <= high) {
 		int mid = (low + high) / 2;
-		int s = h[0];
-		int cnt = 1;
 
-		for (int i = 1; i < n; ++i) {
-			dist = h[i] - s;
-			if (mid <= dist) {
-				cnt++;
-				s = h[i];
+		int gap = 0, tmp = home[0], cnt = 1;
+		for (int i = 1; i < N; ++i) {
+			gap = home[i] - tmp;
+			if (mid <= gap) { //최대 간격보다 작거나 같은 경우 공유기 설치 가능
+				cnt++; //설치한 공유기 개수 증가
+				tmp = home[i];
 			}
 		}
-
-		if (cnt >= c) {
+		if (cnt >= C) { //설치할 수 있는 공유기의 개수가 C보다 큰 경우
+			low = mid + 1; //간격 더 넓게
 			ans = mid;
-			low = mid + 1;
 		}
-		else
-			high = mid - 1;
+		else high = mid - 1; //간격 더 좁게
 	}
 
-	cout << ans << "\n";
+	return ans;
+}
+
+int main() {
+	cin >> N >> C;
+	for (int i = 0; i < N; ++i) {
+		int x; cin >> x;
+		home.push_back(x);
+	}
+
+	cout << solution();
 
 	return 0;
 }
