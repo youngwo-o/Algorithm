@@ -1,38 +1,26 @@
 #include <bits/stdc++.h>
-#define MAX 100001
 
 using namespace std;
 
-int N;
-vector<pair<int, int>> score(MAX);
-
-void solution() {
-	sort(score.begin(), score.begin() + N);
-	int ans = 0, sMin = INT_MAX;
-	for (int i = 0; i < N; ++i) {
-		if (score[i].second < sMin) {
-			ans++;
-			sMin = score[i].second;
-		}
-	}
-	cout << ans << "\n";
-}
-
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-
-	int T;
-	cin >> T;
+	int T; cin >> T;
 	for (int tc = 1; tc <= T; ++tc) {
-		cin >> N;
+		int N; cin >> N;
+		vector<pair<int, int>> score;
 		for (int i = 0; i < N; ++i) {
-			cin >> score[i].first >> score[i].second;
+			int a, b; cin >> a >> b;
+			score.push_back({ a, b });
+		}
+		sort(score.begin(), score.end());
+
+		int ans = 0, maxS = INT_MAX;
+		for (int i = 0; i < N; ++i) {
+			if (maxS > score[i].second) {
+				maxS = score[i].second;
+				ans++;
+			}
 		}
 
-		solution();
+		cout << ans << "\n";
 	}
-
-	return 0;
 }
