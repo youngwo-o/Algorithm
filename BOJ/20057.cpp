@@ -13,7 +13,7 @@ void spread(int r, int c, int d) {
 	if (sand == 0) return;
 	board[r][c] = 0;
 
-	int movedSand = 0;
+	int movedSand = ((int)(sand * 0.02) + (int)(sand * 0.1) + (int)(sand * 0.07) + (int)(sand * 0.01)) * 2 + (int)(sand * 0.05);
 	if (d == 0) { //왼쪽 방향
 		for (int i = r - 2; i <= r + 2; i += 4) {
 			if (i < 0 || i >= N) continue;
@@ -26,7 +26,6 @@ void spread(int r, int c, int d) {
 			if (c + 1 < N) board[i][c + 1] += (sand * 0.01);
 		}
 		if(c - 2 >= 0) board[r][c - 2] += (sand * 0.05);
-		movedSand = ((int)(sand * 0.02) + (int)(sand * 0.1) + (int)(sand * 0.07) + (int)(sand * 0.01)) * 2 + (int)(sand * 0.05);
 		if(c - 1 >= 0) board[r][c - 1] += (sand - movedSand);
 	}
 	else if (d == 1) { //아래쪽
@@ -41,7 +40,6 @@ void spread(int r, int c, int d) {
 			if (r + 1 < N) board[r + 1][j] += (sand * 0.1);
 		}
 		if(r + 2 < N) board[r + 2][c] += (sand * 0.05);
-		movedSand = ((int)(sand * 0.02) + (int)(sand * 0.1) + (int)(sand * 0.07) + (int)(sand * 0.01)) * 2 + (int)(sand * 0.05);
 		if(r + 1 < N) board[r + 1][c] += (sand - movedSand);
 	}
 	else if (d == 2) { //오른쪽
@@ -56,7 +54,6 @@ void spread(int r, int c, int d) {
 			if (c - 1 >= 0) board[i][c - 1] += (sand * 0.01);
 		}
 		if (c + 2 < N) board[r][c + 2] += (sand * 0.05);
-		movedSand = ((int)(sand * 0.02) + (int)(sand * 0.1) + (int)(sand * 0.07) + (int)(sand * 0.01)) * 2 + (int)(sand * 0.05);
 		if (c + 1 < N) board[r][c + 1] += (sand - movedSand);
 	}
 	else if (d == 3) { //위쪽
@@ -71,20 +68,8 @@ void spread(int r, int c, int d) {
 			if (r - 1 >= 0) board[r - 1][j] += (sand * 0.1);
 		}
 		if (r - 2 >= 0) board[r - 2][c] += (sand * 0.05);
-		movedSand = ((int)(sand * 0.02) + (int)(sand * 0.1) + (int)(sand * 0.07) + (int)(sand * 0.01)) * 2 + (int)(sand * 0.05);
 		if (r - 1 >= 0) board[r - 1][c] += (sand - movedSand);
 	}
-}
-
-void print() {
-	cout << "--------------------------\n";
-	for (int i = 0; i < N; ++i) {
-		for (int j = 0; j < N; ++j) {
-			cout << board[i][j] << " ";
-		}
-		cout << endl;
-	}
-	cout << "--------------------------\n";
 }
 
 void move(int num) {
@@ -124,7 +109,7 @@ void solution() {
 	while (++cnt < N) {
 		move(cnt);
 	}
-	//맨 윗줄
+	//맨 윗줄 이동
 	for (int j = c - 1; j >= 0; --j) {
 		spread(r, j, 0);
 	}
