@@ -1,33 +1,30 @@
 #include <bits/stdc++.h>
+#define MAX 50
+#define INF  2500
 
 using namespace std;
 
 int N;
-vector<vector<int>> arr(51, vector<int>(51, 0));
+int adj[MAX][MAX];
 
 int solution() {
-	for (int k = 1; k <= N; ++k) {
-		for (int i = 1; i <= N; ++i) {
-			for (int j = 1; j <= N; ++j) {
-				if (i != j && arr[i][k] != 0 && arr[k][j] != 0) {
-					if (arr[i][j] == 0)
-						arr[i][j] = arr[i][k] + arr[k][j];
-					else
-						arr[i][j] = min(arr[i][k] + arr[k][j], arr[i][j]);
-				}
+	for (int k = 0; k < N; ++k) {
+		for (int i = 0; i < N; ++i) {
+			for (int j = 0; j < N; ++j) {
+				if (i == j || i == k || j == k) continue;
+				if (adj[i][j] > adj[i][k] + adj[k][j]) adj[i][j] = adj[i][k] + adj[k][j];
 			}
 		}
 	}
 
 	int ans = 0;
-	for (int i = 1; i <= N; ++i) {
-		int res = 0;
-		for (int j = 1; j <= N; ++j) {
-			//서로 친구이거나, 친구의 친구인 경우만
-			if (arr[i][j] > 0 && arr[i][j] <= 2)
-				res++;
+	for (int i = 0; i < N; ++i) {
+		int cnt = 0;
+		for (int j = 0; j < N; ++j) {
+			// 서로 아는 친구이거나 (1) / 한 다리 건너서 아는 친구 (2) 만 세기
+			if (i != j && adj[i][j] <= 2) cnt++;
 		}
-		ans = max(ans, res);
+		ans = max(ans, cnt);
 	}
 
 	return ans;
@@ -36,13 +33,14 @@ int solution() {
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
+	cout.tie(NULL);
 
 	cin >> N;
-	for (int i = 1; i <= N; ++i) {
-		string s;
-		cin >> s;
+	for (int i = 0; i < N; ++i) {
+		string str; cin >> str;
 		for (int j = 0; j < N; ++j) {
-			if (s[j] == 'Y') arr[i][j + 1] = 1;
+			if (i == j) adj[i][j] = 0;
+			else adj[i][j] = (str[j] == 'Y' ? 1 : INF);
 		}
 	}
 
